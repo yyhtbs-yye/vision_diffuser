@@ -58,7 +58,7 @@ data:
     dataset:
       type: NewImageDataset
       paths:
-        gt: datasets/ffhq/ffhq_imgs/ffhq_256
+        gt: data/ffhq/ffhq_imgs/ffhq_256
       data_prefix:
         gt: ''
       pipeline:
@@ -80,7 +80,7 @@ data:
     dataset:
       type: NewImageDataset
       paths:
-        gt: datasets/celeba/subsets/celeba_256
+        gt: data/celeba/subsets/celeba_256
       data_prefix:
         gt: ''
       pipeline:

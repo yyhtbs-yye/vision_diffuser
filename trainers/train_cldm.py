@@ -16,7 +16,7 @@ torch.set_float32_matmul_precision('high')
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 # Path to configuration file
-config_path = "configs/cldm_train_64.yaml"
+config_path = "configs/train_cldm_64.yaml"
 
 # Load YAML configuration
 with open(config_path, 'r') as f:

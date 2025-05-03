@@ -77,8 +77,8 @@ data:
       name: 'BasicImageDataset'         # Name of the model class to use
       config:
         folder_paths:
-          gt: datasets/ffhq/ffhq_imgs/ffhq_256
-          lq: datasets/ffhq/ffhq_imgs/ffhq_32
+          gt: data/ffhq/ffhq_imgs/ffhq_256
+          lq: data/ffhq/ffhq_imgs/ffhq_32
         data_prefix:
           gt: ''
           lq: ''
@@ -103,8 +103,8 @@ data:
       name: 'BasicImageDataset'         # Name of the model class to use
       config:
         folder_paths:
-          gt: datasets/celeba/subsets/celeba_256
-          lq: datasets/celeba/subsets/celeba_32
+          gt: data/celeba/subsets/celeba_256
+          lq: data/celeba/subsets/celeba_32
         data_prefix:
           gt: ''
           lq: ''

@@ -1,12 +1,12 @@
 model:
-  type: LDM
+  type: DDIM
 
   network:
     path: 'diffusers.models.unets'   # Path to import the model class
     name: 'UNet2DModel'              # Name of the model class to use
     config:
-      in_channels: 4            # RGB channels
-      out_channels: 4            # RGB channels
+      in_channels: 3            # RGB channels
+      out_channels: 3            # RGB channels
       sample_size: [64, 64]  # Full image size
       down_block_types: ['DownBlock2D', 'DownBlock2D', 'DownBlock2D', 'AttnDownBlock2D']
       up_block_types: ['AttnUpBlock2D', 'UpBlock2D', 'UpBlock2D', 'UpBlock2D']
@@ -16,11 +16,6 @@ model:
       norm_num_groups: 32
       norm_eps: 0.00001
   
-  encoder:
-    path: 'vision.networks.autoencoder_wrappers'   # Path to import the model class
-    name: 'AutoencoderKLWrapper'              # Name of the model class to use
-    pretrained: "stabilityai/sd-vae-ft-mse"  # Example: A common pretrained VAE from Stable Diffusion
-
   # Scheduler configuration
   scheduler:
     path: 'vision.schedulers.scheduling_ddim'           # Path to import the model class
@@ -81,7 +76,31 @@ data:
       name: 'BasicImageDataset'         # Name of the model class to use
       config:
         folder_paths:
-          gt: datasets/ffhq/ffhq_imgs/ffhq_64
+          gt: data/ffhq/ffhq_imgs/ffhq_64
+        data_prefix:
+          gt: ''
+        pipeline:
+          - type: LoadImageFromFile
+            keys: [gt]
+          - type: Normalize
+            keys: [gt]
+            mean: [0.5, 0.5, 0.5]
+            std: [0.5, 0.5, 0.5]
+    batch_size: 32
+    num_workers: 32
+    persistent_workers: true
+    sampler:
+      type: DefaultSampler
+      shuffle: true
+
+  # Validation dataloader configuration
+  val_dataloader:
+    dataset:
+      path: 'vision.torch_datasets.basic_image_dataset'           # Path to import the model class
+      name: 'BasicImageDataset'         # Name of the model class to use
+      config:
+        folder_paths:
+          gt: data/celeba/subsets/celeba_64
         data_prefix:
           gt: ''
         pipeline:
@@ -98,34 +117,10 @@ data:
       type: DefaultSampler
       shuffle: true
 
-  # Validation dataloader configuration
-  val_dataloader:
-    dataset:
-      path: 'vision.torch_datasets.basic_image_dataset'           # Path to import the model class
-      name: 'BasicImageDataset'         # Name of the model class to use
-      config:
-        folder_paths:
-          gt: datasets/celeba/subsets/celeba_256
-        data_prefix:
-          gt: ''
-        pipeline:
-          - type: LoadImageFromFile
-            keys: [gt]
-          - type: Normalize
-            keys: [gt]
-            mean: [0.5, 0.5, 0.5]
-            std: [0.5, 0.5, 0.5]
-    batch_size: 128
-    num_workers: 32
-    persistent_workers: true
-    sampler:
-      type: DefaultSampler
-      shuffle: true
-
 # Logging configuration
 logging:
-  log_dir: work_dirs/ldm
-  experiment_name: ldm_64
+  log_dir: work_dirs/ddim
+  experiment_name: ddim_64
   log_every_n_steps: 50
 
 # Checkpoint configuration

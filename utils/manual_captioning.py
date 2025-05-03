@@ -140,6 +140,6 @@ def process_json_files(json_dir, output_file):
     print(f"Saved {len(captions)} captions to {output_file}")
 
 # Example usage
-json_dir = "datasets/ffhq/json"  # Update with your JSON directory
+json_dir = "data/ffhq/json"  # Update with your JSON directory
 output_file = "ffhq_captions_varied.json"
 process_json_files(json_dir, output_file)

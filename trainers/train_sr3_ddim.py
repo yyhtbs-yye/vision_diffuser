@@ -13,7 +13,7 @@ from datetime import timedelta
 
 torch.set_float32_matmul_precision('high')
 
-config_path = "configs/sr3_ddim_train_32_256.yaml"  # Updated config path
+config_path = "configs/train_sr3_ddim_32_256.yaml"  # Updated config path
 
 # Load YAML configuration
 with open(config_path, 'r') as f:

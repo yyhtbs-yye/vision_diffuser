@@ -1,19 +1,18 @@
 model:
-  type: CLDM
+  type: LDM
 
   network:
-    path: 'diffusers.models.unets'  # Path to import the model class
-    name: 'UNet2DConditionModel'             # Name of the model class to use
+    path: 'diffusers.models.unets'   # Path to import the model class
+    name: 'UNet2DModel'              # Name of the model class to use
     config:
-      in_channels: 4                # RGB channels
-      out_channels: 4               # RGB channels
-      sample_size: [64, 64]         # Full image size
+      in_channels: 4            # RGB channels
+      out_channels: 4            # RGB channels
+      sample_size: [64, 64]  # Full image size
       down_block_types: ['DownBlock2D', 'DownBlock2D', 'DownBlock2D', 'AttnDownBlock2D']
       up_block_types: ['AttnUpBlock2D', 'UpBlock2D', 'UpBlock2D', 'UpBlock2D']
       block_out_channels: [128, 256, 512, 512]
       layers_per_block: 2
       attention_head_dim: 8
-      cross_attention_dim: 9
       norm_num_groups: 32
       norm_eps: 0.00001
   
@@ -21,10 +20,6 @@ model:
     path: 'vision.networks.autoencoder_wrappers'   # Path to import the model class
     name: 'AutoencoderKLWrapper'              # Name of the model class to use
     pretrained: "stabilityai/sd-vae-ft-mse"  # Example: A common pretrained VAE from Stable Diffusion
-
-  condition_generator:
-    config: 
-      dims: [2, 7] # cross_attention_dim: 9 in which 2 gender + 7 hair color
 
   # Scheduler configuration
   scheduler:
@@ -41,8 +36,8 @@ model:
       num_train_timesteps: 1000
 
   solver:
-    path: 'vision.solvers.sampling_conditioned_ddim'           # Path to import the model class
-    name: 'DDIMConditionedSampler'         # Name of the model class to use
+    path: 'vision.solvers.sampling_ddim'           # Path to import the model class
+    name: 'DDIMSampler'         # Name of the model class to use
     config:
       beta_start: 0.0001
       beta_end: 0.02
@@ -82,13 +77,11 @@ train:
 data:
   train_dataloader:
     dataset:
-      path: 'vision.torch_datasets.conditioned_image_dataset'           # Path to import the model class
-      name: 'ConditionedImageDataset'         # Name of the model class to use
+      path: 'vision.torch_datasets.basic_image_dataset'           # Path to import the model class
+      name: 'BasicImageDataset'         # Name of the model class to use
       config:
-        json_path: 'datasets/ffhq/ffhq_dict_features.json'
-        condition_keys: ['gender', 'hair_color']
         folder_paths:
-          gt: datasets/ffhq/ffhq_imgs/ffhq_64
+          gt: data/ffhq/ffhq_imgs/ffhq_64
         data_prefix:
           gt: ''
         pipeline:
@@ -100,7 +93,7 @@ data:
             std: [0.5, 0.5, 0.5]
     batch_size: 64
     num_workers: 32
-    persistent_workers: False
+    persistent_workers: true
     sampler:
       type: DefaultSampler
       shuffle: true
@@ -112,7 +105,7 @@ data:
       name: 'BasicImageDataset'         # Name of the model class to use
       config:
         folder_paths:
-          gt: datasets/celeba/subsets/celeba_64
+          gt: data/celeba/subsets/celeba_256
         data_prefix:
           gt: ''
         pipeline:
@@ -124,20 +117,20 @@ data:
             std: [0.5, 0.5, 0.5]
     batch_size: 128
     num_workers: 32
-    persistent_workers: False
+    persistent_workers: true
     sampler:
       type: DefaultSampler
       shuffle: true
 
 # Logging configuration
 logging:
-  log_dir: work_dirs/cldm
-  experiment_name: cldm_64
+  log_dir: work_dirs/ldm
+  experiment_name: ldm_64
   log_every_n_steps: 50
 
 # Checkpoint configuration
 checkpoint:
-  save_best_metric: 'train/noise_mse'  # Changed from latent_mse to img_mse
+  save_best_metric: 'val/noise_mse'  # Changed from latent_mse to img_mse
   save_best_mode: 'min'            # 'min' for loss metrics
   save_top_k: 3                    # Number of best checkpoints to keep
   save_last: true                  # Whether to save the last checkpoint

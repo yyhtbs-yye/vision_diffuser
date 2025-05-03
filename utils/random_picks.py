@@ -3,8 +3,8 @@ import random
 import shutil
 
 # Define paths
-folder_a = "../datasets/celeba/fullsets/celeba_1024"  # Replace with your source folder path
-folder_b = "../datasets/celeba/subsets/celeba_1024"  # Replace with your destination folder path
+folder_a = "../data/celeba/fullsets/celeba_1024"  # Replace with your source folder path
+folder_b = "../data/celeba/subsets/celeba_1024"  # Replace with your destination folder path
 
 # Ensure folder B exists
 os.makedirs(folder_b, exist_ok=True)

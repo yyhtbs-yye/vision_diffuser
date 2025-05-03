@@ -11,7 +11,7 @@ from vision.models.generation.pixel_diffusing import PixelDiffusionModel  # Impo
 torch.set_float32_matmul_precision('high')
 
 # Path to configuration file
-config_path = "configs/ddim_train_64.yaml"  # Updated config path
+config_path = "configs/train_ddim_64.yaml"  # Updated config path
 
 # Load YAML configuration
 with open(config_path, 'r') as f:

@@ -1,6 +1,6 @@
 # Ignore result and dataset folders
 chpt_bkups/
-datasets/
+data/
 work_dirs/
 vision_diffuser.egg-info/
 __pycache__/

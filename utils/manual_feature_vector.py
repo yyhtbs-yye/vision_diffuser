@@ -277,6 +277,6 @@ def process_json_files(json_dir, output_file):
     print(f"Saved metadata to {unique_values_file}")
 
 # Example usage
-json_dir = "datasets/ffhq/feature_json_files"  # Update with your JSON directory
+json_dir = "data/ffhq/feature_json_files"  # Update with your JSON directory
 output_file = "ffhq_disentangled_features.json"
 process_json_files(json_dir, output_file)
