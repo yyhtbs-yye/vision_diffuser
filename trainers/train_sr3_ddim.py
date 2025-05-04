@@ -79,7 +79,7 @@ callbacks.append(lr_monitor)
 trainer = Trainer(
     max_epochs=train_config['max_epochs'],
     accelerator="auto",
-    devices=4 if torch.cuda.is_available() else None,
+    devices="0,3,6,7" if torch.cuda.is_available() else None,
     strategy=DDPStrategy(
         find_unused_parameters=False,  # Optional: Disable if not needed
         timeout=timedelta(seconds=3600)  # Set timeout to 1 hour

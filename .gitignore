@@ -5,7 +5,7 @@ work_dirs/
 vision_diffuser.egg-info/
 __pycache__/
 *.pyc
-
+data
 # Ignore all model checkpoints
 *.ckpt
 *.pth

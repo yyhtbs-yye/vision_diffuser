@@ -34,7 +34,7 @@ class UNet2DSimpleConditionModel(UNet2DModel):
             **kwargs
         )
 
-    def forward(self, sample, timestep, encoder_hidden_states=None, **kwargs):
+    def forward(self, sample, timestep, encoder_hidden_states, **kwargs):
         if encoder_hidden_states is not None:
             assert sample.shape[2:] == encoder_hidden_states.shape[2:], "Spatial dimensions must match"
             sample = torch.cat([sample, encoder_hidden_states], dim=1)

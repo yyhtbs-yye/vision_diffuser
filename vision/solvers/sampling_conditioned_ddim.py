@@ -35,7 +35,7 @@ class DDIMConditionedSampler:
 
         for i, t in enumerate(timesteps_iter):
             model_input = self.sampler.scale_model_input(noise, t)
-            noise_pred = network(model_input, t, encoder_hidden_states=encoder_hidden_states)
+            noise_pred = network(model_input, t, encoder_hidden_states)
 
             if hasattr(noise_pred, 'sample'):
                 noise_pred = noise_pred.sample

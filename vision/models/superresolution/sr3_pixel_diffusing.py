@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
-
 from vision.models.generation.pixel_diffusing import BaseDiffusionModel
+
 class SR3PixelDiffusionModel(BaseDiffusionModel):
 
     def forward(self, x0, lc0):
@@ -31,11 +31,9 @@ class SR3PixelDiffusionModel(BaseDiffusionModel):
         
         # Add noise to images according to noise schedule
         xt = self.scheduler.perturb(x1, x0, timesteps)
-        
-        cxt = torch.cat((xt, c0), dim=1)
 
         targets = self.scheduler.get_targets(x1, x0, timesteps)
-        predictions = self.network(cxt, timesteps)['sample']
+        predictions = self.network(xt, timesteps, c0)['sample']
         weights = self.scheduler.get_loss_weights(timesteps)
         
         loss = torch.mean(torch.mean((predictions - targets) ** 2, dim=[1, 2, 3]) * weights)
