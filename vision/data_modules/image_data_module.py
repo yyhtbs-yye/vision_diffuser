@@ -43,7 +43,11 @@ class ImageDataModule(pl.LightningDataModule):
             # Setup validation dataset
             val_cfg = self.config['val_dataloader']['dataset']
             self.val_dataset = self.build_dataset(val_cfg)
-    
+        elif stage == 'validate':
+            # Setup validation dataset
+            val_cfg = self.config['val_dataloader']['dataset']
+            self.val_dataset = self.build_dataset(val_cfg)
+
     def _create_dataloader(self, dataset, loader_cfg):
         """Create dataloader based on config with optimizations for large datasets."""
         # Create sampler

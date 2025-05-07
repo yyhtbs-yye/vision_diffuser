@@ -6,7 +6,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint, LearningRateMonitor
 from pytorch_lightning.loggers import TensorBoardLogger 
 
 from vision.data_modules.image_data_module import ImageDataModule
-from vision.models.superresolution.sr3_pixel_diffusing import SR3PixelDiffusionModel  # Import the new DDPM model
+from vision.models.superresolution.sr3_pixel_diffusing import SR3PixelDiffusionModel
 
 from pytorch_lightning.strategies import DDPStrategy
 from datetime import timedelta
@@ -28,7 +28,7 @@ logging_config = config['logging']
 checkpoint_config = config['checkpoint']
 
 # Create a new model or load from checkpoint, this is from the previous checkpoint
-checkpoint_path = None 
+checkpoint_path = "work_dirs/sr3_ddim/sr3_16_128/checkpoints/last-v1.ckpt" 
 
 if checkpoint_path and os.path.exists(checkpoint_path):
     print(f"Loading model from checkpoint: {checkpoint_path}")

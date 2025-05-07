@@ -37,14 +37,17 @@ class BaseDiffusionModel(pl.LightningModule, ABC):
         self.network = self.build_module(model_config['network'])
         self.scheduler = self.build_module(model_config['scheduler'])
         self.solver = self.build_module(model_config['solver'])
-
-        self.optimizer_config = train_config['optimizer']
+        if len(train_config) > 0:
+            self.optimizer_config = train_config['optimizer']
+            self._setup_ema()
+            
         self.metric_config = validation_config.get('metrics', {})
         self.metrics = setup_metrics(self.metric_config, None)
-        self._setup_ema()
 
         self.use_visualizer = validation_config.get('use_visualizer', True)
         self.num_vis_samples = validation_config.get('num_vis_samples', 4)
+
+        
 
     @abstractmethod
     def forward(self, noise):

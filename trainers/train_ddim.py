@@ -11,7 +11,7 @@ from vision.models.generation.pixel_diffusing import PixelDiffusionModel  # Impo
 torch.set_float32_matmul_precision('high')
 
 # Path to configuration file
-config_path = "configs/train_ddim_64.yaml"  # Updated config path
+config_path = "configs/train_ddim_256.yaml"  # Updated config path
 
 # Load YAML configuration
 with open(config_path, 'r') as f:
@@ -75,7 +75,7 @@ callbacks.append(lr_monitor)
 trainer = Trainer(
     max_epochs=train_config['max_epochs'],
     accelerator="gpu",
-    devices=4 if torch.cuda.is_available() else None,
+    devices="4,5,6,7" if torch.cuda.is_available() else None,
     logger=logger,
     callbacks=callbacks,
     val_check_interval=train_config['val_check_interval'],
