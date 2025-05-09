@@ -1,7 +1,7 @@
-model:
+boat:
   type: SR-DPS
 
-  network:
+  model:
     path: 'vision.networks.kaist_dps.unet'   # Path to import the model class
     name: 'UNetModel'              # Name of the model class to use
     config:

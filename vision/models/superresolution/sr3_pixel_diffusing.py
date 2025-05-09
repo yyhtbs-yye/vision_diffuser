@@ -10,7 +10,7 @@ class SR3PixelDiffusionModel(BaseDiffusionModel):
             
             # !!!!this can be improved using SRCNN and PixelShuffle
             c0 = F.interpolate(lc0, size=(H, W), mode='bilinear', align_corners=False)
-            network_in_use = self.network_ema if self.use_ema and hasattr(self, 'network_ema') else self.network
+            network_in_use = self.model_ema if self.use_ema and hasattr(self, 'network_ema') else self.model
             hx1 = self.solver.solve(network_in_use, x0, c0)
 
         return torch.clamp(hx1, -1, 1)
@@ -33,7 +33,7 @@ class SR3PixelDiffusionModel(BaseDiffusionModel):
         xt = self.scheduler.perturb(x1, x0, timesteps)
 
         targets = self.scheduler.get_targets(x1, x0, timesteps)
-        predictions = self.network(xt, timesteps, c0)['sample']
+        predictions = self.model(xt, timesteps, c0)['sample']
         weights = self.scheduler.get_loss_weights(timesteps)
         
         loss = torch.mean(torch.mean((predictions - targets) ** 2, dim=[1, 2, 3]) * weights)

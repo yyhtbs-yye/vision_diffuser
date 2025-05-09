@@ -1,7 +1,7 @@
-model:
+boat:
   type: LDM
 
-  network:
+  model:
     path: 'diffusers.models.unets'   # Path to import the model class
     name: 'UNet2DModel'              # Name of the model class to use
     config:

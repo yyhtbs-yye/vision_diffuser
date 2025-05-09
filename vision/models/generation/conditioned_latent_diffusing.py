@@ -30,7 +30,7 @@ class ConditionedLatentDiffusionModel(LatentDiffusionModel):
     def forward(self, z0, conditions=None):
         """Generate images from noise with conditioning."""
         with torch.no_grad():
-            network_in_use = self.network_ema if self.use_ema and hasattr(self, 'network_ema') else self.network
+            network_in_use = self.model_ema if self.use_ema and hasattr(self, 'network_ema') else self.model
 
             encoder_hidden_states = self.condition_encoder(conditions)
             
@@ -63,7 +63,7 @@ class ConditionedLatentDiffusionModel(LatentDiffusionModel):
         targets = self.scheduler.get_targets(z1, z0, timesteps)
         
         # Pass mapped condition to the network via encoder_hidden_states [B, T, D]
-        predictions = self.network(sample=zt, timestep=timesteps, encoder_hidden_states=encoder_hidden_states)['sample']
+        predictions = self.model(sample=zt, timestep=timesteps, encoder_hidden_states=encoder_hidden_states)['sample']
         
         weights = self.scheduler.get_loss_weights(timesteps)
         loss = torch.mean(torch.mean((predictions - targets) ** 2, dim=[1, 2, 3]) * weights)

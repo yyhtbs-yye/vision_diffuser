@@ -20,7 +20,6 @@ class ImageDataModule(pl.LightningDataModule):
         class_ = ImageDataModule.get_class(config['path'], config['name'])
 
         return class_(config['config'])
-
     
     def __init__(self, config=None):
         super().__init__()

@@ -26,7 +26,7 @@ logging_config = config['logging']
 checkpoint_config = config['checkpoint']
 
 # Create a new model or load from checkpoint
-checkpoint_path = None  # Set this to your checkpoint path if needed
+checkpoint_path = "work_dirs/ddim/ddim_256/checkpoints/last.ckpt"  # Set this to your checkpoint path if needed
 
 if checkpoint_path and os.path.exists(checkpoint_path):
     print(f"Loading model from checkpoint: {checkpoint_path}")
@@ -75,7 +75,7 @@ callbacks.append(lr_monitor)
 trainer = Trainer(
     max_epochs=train_config['max_epochs'],
     accelerator="gpu",
-    devices="4,5,6,7" if torch.cuda.is_available() else None,
+    devices=1,
     logger=logger,
     callbacks=callbacks,
     val_check_interval=train_config['val_check_interval'],

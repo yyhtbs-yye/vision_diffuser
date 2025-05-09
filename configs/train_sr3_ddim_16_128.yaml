@@ -1,7 +1,7 @@
-model:
+boat:
   type: SR3-DDIM
   
-  network:
+  model:
     path: 'vision.networks.unet_2d_simple_condition'   # Path to import the model class
     name: 'UNet2DSimpleConditionModel'              # Name of the model class to use
     config:

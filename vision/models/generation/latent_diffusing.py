@@ -16,7 +16,7 @@ class LatentDiffusionModel(BaseDiffusionModel):
 
     def forward(self, z0):
         with torch.no_grad():
-            network_in_use = self.network_ema if self.use_ema and hasattr(self, 'network_ema') else self.network
+            network_in_use = self.model_ema if self.use_ema and hasattr(self, 'network_ema') else self.model
             hz1 = self.solver.solve(network_in_use, z0)
             hx1 = self.decode_latents(hz1)
             result = torch.clamp(hx1, -1, 1)
@@ -42,7 +42,7 @@ class LatentDiffusionModel(BaseDiffusionModel):
         zt = self.scheduler.perturb(z1, z0, timesteps)
 
         targets = self.scheduler.get_targets(z1, z0, timesteps)
-        predictions = self.network(zt, timesteps)['sample']
+        predictions = self.model(zt, timesteps)['sample']
         weights = self.scheduler.get_loss_weights(timesteps)
         
         loss = torch.mean(torch.mean((predictions - targets) ** 2, dim=[1, 2, 3]) * weights)
@@ -73,7 +73,7 @@ class LatentDiffusionModel(BaseDiffusionModel):
             timesteps = self.scheduler.sample_timesteps(batch_size, self.device)
             zt = self.scheduler.perturb(z1, z0, timesteps)
 
-            network_in_use = self.network_ema if self.use_ema and hasattr(self, 'network_ema') else self.network
+            network_in_use = self.model_ema if self.use_ema and hasattr(self, 'network_ema') else self.model
 
             targets = self.scheduler.get_targets(z1, z0, timesteps)
             predictions = network_in_use(zt, timesteps)['sample']

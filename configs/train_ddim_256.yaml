@@ -1,7 +1,7 @@
-model:
+boat:
   type: DDIM
 
-  network:
+  model:
     path: 'diffusers.models.unets'   # Path to import the model class
     name: 'UNet2DModel'              # Name of the model class to use
     config:
@@ -86,8 +86,8 @@ data:
             keys: [gt]
             mean: [0.5, 0.5, 0.5]
             std: [0.5, 0.5, 0.5]
-    batch_size: 16
-    num_workers: 16
+    batch_size: 48
+    num_workers: 24
     persistent_workers: true
     sampler:
       type: DefaultSampler
@@ -110,8 +110,8 @@ data:
             keys: [gt]
             mean: [0.5, 0.5, 0.5]
             std: [0.5, 0.5, 0.5]
-    batch_size: 32
-    num_workers: 16
+    batch_size: 64
+    num_workers: 32
     persistent_workers: true
     sampler:
       type: DefaultSampler
@@ -120,7 +120,7 @@ data:
 # Logging configuration
 logging:
   log_dir: work_dirs/ddim
-  experiment_name: ddim_64
+  experiment_name: ddim_256
   log_every_n_steps: 50
 
 # Checkpoint configuration

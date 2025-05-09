@@ -9,7 +9,7 @@ class DPSPixelDiffusionModel(BaseDiffusionModel):
 
     def forward(self, x0, lc0):
         with torch.enable_grad():
-            network_in_use = self.network_ema if self.use_ema and hasattr(self, 'network_ema') else self.network
+            network_in_use = self.model_ema if self.use_ema and hasattr(self, 'network_ema') else self.model
             hx1 = self.solver.solve(network_in_use, x0, measurement=lc0)
 
         return torch.clamp(hx1, -1, 1)

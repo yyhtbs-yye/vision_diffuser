@@ -1,13 +1,13 @@
-model:
+boat:
   type: DDIM
 
-  network:
+  model:
     path: 'diffusers.models.unets'   # Path to import the model class
     name: 'UNet2DModel'              # Name of the model class to use
     config:
-      in_channels: 3            # RGB channels
-      out_channels: 3            # RGB channels
-      sample_size: [64, 64]  # Full image size
+      in_channels: 3              # RGB channels
+      out_channels: 3             # RGB channels
+      sample_size: [64, 64]       # Full image size
       down_block_types: ['DownBlock2D', 'DownBlock2D', 'DownBlock2D', 'AttnDownBlock2D']
       up_block_types: ['AttnUpBlock2D', 'UpBlock2D', 'UpBlock2D', 'UpBlock2D']
       block_out_channels: [128, 256, 512, 512]
@@ -45,28 +45,30 @@ model:
       eta: 0.0                   # Parameter controlling noise level in sampling
       num_inference_steps: 50    # Default sampling steps for inference
 
-
-# Validation configuration
-validation:
-  use_visualizer: true
-  num_vis_samples: 4          # Number of samples to visualize during validation
-  metrics:
-    use_fid: false
-    custom_metrics: {}        # Optional custom metrics can be defined here
+  optimizer:
+    path: 'torch.optim'           # Path to import the model class
+    name: 'Adam'         # Name of the model class to use
+    params:
+      learning_rate: 0.0001
+      betas: [0.9, 0.999]
+      weight_decay: 0.0
+      use_ema: true
+      ema_decay: 0.999
+      ema_start: 1000
+      noise_offset_weight: 0.0    # Parameter for noise offset (disabled in code)
 
 # Training configuration
 train:
   max_epochs: 100
   val_check_interval: 200
-  # Optimizer configuration
-  optimizer:
-    learning_rate: 0.0001
-    betas: [0.9, 0.999]
-    weight_decay: 0.0
-    use_ema: true
-    ema_decay: 0.999
-    ema_start: 1000
-    noise_offset_weight: 0.0    # Parameter for noise offset (disabled in  code)
+
+# Validation configuration
+valid:
+  use_visualizer: true
+  num_vis_samples: 4 
+  metrics:
+    use_fid: false
+    custom_metrics: {} 
 
 # Data configuration
 data:

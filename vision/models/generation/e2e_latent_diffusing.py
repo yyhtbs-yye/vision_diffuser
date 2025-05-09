@@ -34,7 +34,7 @@ class End2endTrainableLatentDiffusion(LatentDiffusionModel):
         zt = self.scheduler.perturb(z1, z0, timesteps)
 
         targets = self.scheduler.get_targets(z1, z0, timesteps)
-        predictions = self.network(zt, timesteps)['sample']
+        predictions = self.model(zt, timesteps)['sample']
         weights = self.scheduler.get_loss_weights(timesteps)
         
         noise_mse = torch.mean(torch.mean((predictions - targets) ** 2, dim=[1, 2, 3]) * weights)

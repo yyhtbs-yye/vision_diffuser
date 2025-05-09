@@ -1,13 +1,23 @@
-# pyproject.toml
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.black]
-line-length = 88
-target-version = ['py38']
-include = '\.pyi?$'
+[project]
+name = "vision_diffuser"
+version = "0.1.0"
+description = "A project with vision and trainer packages"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",  # Common dependency
+]
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
+[project.optional-dependencies]
+vision = [  # Vision-specific dependency
+]
+trainer = [  # Trainer-specific dependency
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["vision", "trainer"]  # Explicitly include the vision and trainer packages
